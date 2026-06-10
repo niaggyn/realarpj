@@ -1,4 +1,3 @@
-Aqui está uma proposta completa e estruturada para o README.md do seu repositório. Este modelo já está formatado em Markdown, pronto para você copiar e colar no GitHub. Ele engloba tanto a parte mobile (Unity/AR) quanto a arquitetura de backend (FastAPI) para investidores e desenvolvedores entenderem o escopo do projeto.
 🏗️ RealArch: Plataforma B2B de Realidade Aumentada
 
 RealArch é uma plataforma de Software as a Service (SaaS) baseada em Realidade Aumentada (AR) voltada para o setor de construção civil e mercado imobiliário. O aplicativo transforma projetos arquitetônicos e estruturais complexos em experiências imersivas de maquetes virtuais 3D em escala 1:1.
@@ -66,5 +65,4 @@ A sustentabilidade do projeto baseia-se em um faturamento em duas etapas, elimin
     🟨 Go-to-Market: Planejamento da Fase Beta em andamento com parceiros do setor para validação de usabilidade no canteiro de obras.
 
 👨‍💻 Contato e Demonstração
-
 Para investidores, parceiros de negócio ou construtoras interessadas em participar do programa Beta entre em contato diretamente via niagygn@gmail.com.
