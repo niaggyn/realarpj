@@ -45,6 +45,9 @@ export default function PlansSection() {
               <li className="flex items-center gap-2 text-gray-500">
                 <span className="text-red-500">✗</span> Sem Dashboard
               </li>
+              <li className="flex items-center gap-2 text-gray-500">
+                <span className="text-red-500">✗</span> Apenas Modo Online
+              </li>
             </ul>
 
             <button className="w-full bg-gray-700 hover:bg-gray-800 text-white py-2 rounded-lg font-semibold text-xs transition-colors">
@@ -67,6 +70,9 @@ export default function PlansSection() {
               </li>
               <li className="flex items-center gap-2 text-gray-700">
                 <span className="text-orange-500">✓</span> Licenças para múltiplos usuários
+              </li>
+              <li className="flex items-center gap-2 text-gray-700">
+                <span className="text-orange-500">✓</span> Modo Offline para canteiro de obras
               </li>
               <li className="flex items-center gap-2 text-gray-700">
                 <span className="text-orange-500">✓</span> Suporte prioritário

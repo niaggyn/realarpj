@@ -121,7 +121,7 @@ export default function Hero() {
                 </button>
                 {data.secondaryButton && (
                   <button
-                    className={`border ${isGestao ? "border-black text-black" : "border-gray-400 text-white"} px-6 py-2 rounded-[0.5vw] font-bold text-xs hover:border-white transition-colors`}
+                    className={`border ${isGestao ? "border-black text-black" : "border-gray-400 text-white"} px-6 py-2 rounded-[0.5vw] font-bold text-xs hover:border-orange-500 transition-colors`}
                   >
                     {data.secondaryButton}
                   </button>

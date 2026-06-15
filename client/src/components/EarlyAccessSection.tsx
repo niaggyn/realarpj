@@ -33,8 +33,8 @@ export default function EarlyAccessSection() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left - Content */}
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold leading-tight">
-              Pronto para <span className="text-orange-500">tecnologia</span> de ponta?
+            <h2 className="text-2xl md:text-3xl font-normal leading-tight">
+              Pronto para <span className="text-orange-500 font-bold">tecnologia</span> de ponta?
             </h2>
 
             <p className="text-gray-300 text-xs md:text-sm leading-relaxed">
@@ -53,6 +53,10 @@ export default function EarlyAccessSection() {
               <li className="flex items-center gap-2">
                 <span className="text-orange-500">✓</span>
                 Acesso antecipado
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-orange-500">✓</span>
+                Acesso a recursos exclusivos
               </li>
             </ul>
           </div>

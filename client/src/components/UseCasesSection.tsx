@@ -29,17 +29,17 @@ export default function UseCasesSection() {
         backgroundPosition: "right",
       }}
     >
-      <div className="max-w-7xl mx-auto px-0 mt-0 md:mt-0">
-        <h1 className="text-right text-lg font-bold mb-2 text-white pt-0">
-          O canteiro de obras não aceita "Ctrl+Z"
-        </h1>
-      </div>
       <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-0 mt-0 md:mt-0">
+          <h1 className="text-left text-xl font-normal mb-2 text-white pt-0">
+            O canteiro de obras não aceita <span className="font-bold">"Ctrl+Z"</span>
+          </h1>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16 items-start">
           {/* Left - Tabs (75%) */}
           <div className="flex flex-col gap-12 md:gap-16 md:col-span-3">
-              <div className="flex gap-6 flex-col md:flex-row mt-12">
-                <div className="flex gap-3 flex-col w-full sm:w-72">
+            <div className="flex gap-6 flex-col md:flex-row mt-12">
+              <div className="flex gap-3 flex-col w-full sm:w-72">
                 <h3 className="text-xl font-bold text-gray-800 mb-0 text-center">
                   PROBLEMAS ATUAIS
                 </h3>

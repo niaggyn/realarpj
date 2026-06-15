@@ -12,6 +12,21 @@ import Logo from "../img/logos/logo_small.png";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  function scrollToSectionWithOffset(href: string, smooth = true) {
+    if (!href || !href.startsWith("#")) return;
+    const id = href.slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const navHeightVar = getComputedStyle(document.documentElement).getPropertyValue("--navbar-height");
+    const navbarHeight = parseInt(navHeightVar) || 72;
+
+    const rect = target.getBoundingClientRect();
+    const targetTop = window.scrollY + rect.top - navbarHeight;
+
+    window.scrollTo({ top: targetTop, behavior: smooth ? "smooth" : "auto" });
+  }
+
   useEffect(() => {
     function updateOffset() {
       const el = document.getElementById("site-navbar");
@@ -24,6 +39,24 @@ export default function Navbar() {
     window.addEventListener("resize", updateOffset);
     return () => window.removeEventListener("resize", updateOffset);
   }, [isOpen]);
+
+  useEffect(() => {
+    function handleHash() {
+      if (location.hash) {
+        scrollToSectionWithOffset(location.hash, false);
+      }
+    }
+
+    // On initial load (after DOM settles)
+    if (location.hash) setTimeout(() => handleHash(), 50);
+
+    window.addEventListener("hashchange", handleHash);
+    window.addEventListener("popstate", handleHash);
+    return () => {
+      window.removeEventListener("hashchange", handleHash);
+      window.removeEventListener("popstate", handleHash);
+    };
+  }, []);
   
 
   const navItems = [
@@ -54,6 +87,14 @@ export default function Navbar() {
             <a
               key={item.label}
               href={item.href}
+              onClick={(e) => {
+                if (item.href && item.href.startsWith("#")) {
+                  e.preventDefault();
+                  scrollToSectionWithOffset(item.href);
+                  // update the hash without jumping
+                  history.pushState(null, "", item.href);
+                }
+              }}
               className="text-white text-xs font-medium hover:underline hover:decoration-orange-500 hover:decoration-2 hover:underline-offset-2 transition"
             >
               {item.label}
@@ -85,7 +126,14 @@ export default function Navbar() {
               key={item.label}
               href={item.href}
               className="block py-2 text-white text-xs font-medium hover:underline hover:decoration-orange-500 hover:decoration-2 hover:underline-offset-2"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => {
+                setIsOpen(false);
+                if (item.href && item.href.startsWith("#")) {
+                  e.preventDefault();
+                  scrollToSectionWithOffset(item.href);
+                  history.pushState(null, "", item.href);
+                }
+              }}
             >
               {item.label}
             </a>
