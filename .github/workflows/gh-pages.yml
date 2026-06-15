@@ -15,17 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 1. Instala o pnpm primeiro para o setup-node conseguir usar o cache
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9 # Ajuste para a versão principal do pnpm que você usa localmente
+
+      # 2. Configura o Node.js e ativa o cache do pnpm com segurança
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
+      # 3. Instala as dependências usando o pnpm de forma limpa
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
