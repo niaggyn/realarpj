@@ -1,20 +1,56 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, Router as WouterRouter } from "wouter";
+import { useState, useEffect } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
 
-function Router() {
+// Local hash-location factory to avoid importing from "wouter/use-location"
+function createHashLocation() {
+  return function useHashLocation() {
+    const [loc, setLoc] = useState(() => {
+      if (typeof window === "undefined") return "/";
+      return window.location.hash ? window.location.hash.slice(1) : "/";
+    });
+
+    useEffect(() => {
+      function onHash() {
+        setLoc(window.location.hash ? window.location.hash.slice(1) : "/");
+      }
+
+      window.addEventListener("hashchange", onHash);
+      return () => window.removeEventListener("hashchange", onHash);
+    }, []);
+
+    const setLocation = (to: string) => {
+      if (!to) return;
+      if (!to.startsWith("#") && !to.startsWith("/")) to = "/" + to;
+      const newHash = to.startsWith("#") ? to : `#${to}`;
+      if (window.location.hash !== newHash) {
+        window.location.hash = newHash;
+        setLoc(newHash.slice(1));
+      }
+    };
+
+    return [loc, setLocation] as [string, (to: string) => void];
+  };
+}
+
+function AppRouter() {
+  const hook = createHashLocation();
+
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+    <WouterRouter hook={hook}>
+      <Switch>
+        <Route path={"/"} component={Home} />
+        <Route path={"/404"} component={NotFound} />
+        {/* Final fallback route */}
+        <Route component={NotFound} />
+      </Switch>
+    </WouterRouter>
   );
 }
 
@@ -32,7 +68,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <AppRouter />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
