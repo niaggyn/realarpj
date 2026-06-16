@@ -18,8 +18,6 @@ jobs:
       # 1. Instala o pnpm primeiro para o setup-node conseguir usar o cache
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10 # Ajuste para a versão principal do pnpm que você usa localmente
 
       # 2. Configura o Node.js e ativa o cache do pnpm com segurança
       - name: Use Node.js
