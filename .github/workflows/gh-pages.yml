@@ -38,13 +38,20 @@ jobs:
       - name: Create 404 for SPA fallback
         run: cp ./dist/public/index.html ./dist/public/404.html || true
 
+      - name: Diagnose build output
+        run: |
+          echo "-- listing client/dist/public --"
+          ls -la ./client/dist/public || true
+          echo "-- head of index.html --"
+          head -n 40 ./client/dist/public/index.html || true
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact for Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/public
+          path: ./client/dist/public
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
