@@ -2,6 +2,7 @@
   "name": "realar-site",
   "version": "1.0.0",
   "type": "module",
+  "homepage": "https://github.io"
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
