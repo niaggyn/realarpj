@@ -30,20 +30,25 @@ jobs:
 
       # 3. Instala as dependências usando o pnpm de forma limpa
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install # ou npm/yarn se não usar pnpm
+        working-directory: ./client
 
-      - name: Build
-        run: pnpm build
+      - name: Build project
+        run: pnpm build # ou npm run build
+        working-directory: ./client
+
 
       - name: Create 404 for SPA fallback
-        run: cp ./dist/public/index.html ./dist/public/404.html || true
+        run: cp ./client/dist/public/index.html ./client/dist/public/404.html || true
 
       - name: Diagnose build output
         run: |
-          echo "-- listing client/dist/public --"
-          ls -la ./client/dist/public || true
-          echo "-- head of index.html --"
-          head -n 40 ./client/dist/public/index.html || true
+          echo "=== Onde estou no terminal ==="
+          pwd
+          echo "=== Listando arquivos da raiz ==="
+          ls -la
+          echo "=== Listando arquivos dentro de client (se existir) ==="
+          ls -la ./client || true
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -51,7 +56,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./client/dist/public
+          path: ./dist/public
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
