@@ -9,6 +9,11 @@ permissions:
   pages: write
   id-token: write
 
+# Para sumir com o aviso:
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,17 +22,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1. Instala o pnpm primeiro
+      # 1. Instala e gerencia o pnpm (ele mesmo cuidará do cache nativamente)
       - name: Install pnpm
         uses: pnpm/action-setup@v4
+        with:
+          run_install: false
 
-      # 2. Configura o Node.js e ativa o cache apontando para a pasta do cliente
+      # 2. Configura o Node.js de forma limpa (sem o cache conflitante do pnpm)
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
-          cache-dependency-path: ./client/pnpm-lock.yaml
 
       # 3. Instala as dependências dentro de ./client
       - name: Install dependencies
