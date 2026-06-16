@@ -17,46 +17,50 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1. Instala o pnpm primeiro para o setup-node conseguir usar o cache
+      # 1. Instala o pnpm primeiro
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
-      # 2. Configura o Node.js e ativa o cache do pnpm com segurança
+      # 2. Configura o Node.js e ativa o cache apontando para a pasta do cliente
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
+          cache-dependency-path: ./client/pnpm-lock.yaml
 
-      # 3. Instala as dependências usando o pnpm de forma limpa
+      # 3. Instala as dependências dentro de ./client
       - name: Install dependencies
-        run: pnpm install # ou npm/yarn se não usar pnpm
+        run: pnpm install
         working-directory: ./client
 
+      # 4. Executa o build do Vite dentro de ./client
       - name: Build project
-        run: pnpm build # ou npm run build
+        run: pnpm build
         working-directory: ./client
 
-
+      # 5. Cria o fallback de 404 para rotas React (SPA) funcionarem no GitHub Pages
       - name: Create 404 for SPA fallback
         run: cp ./client/dist/public/index.html ./client/dist/public/404.html || true
 
+      # 6. Diagnose (Opcional, mas bom para checar os logs se precisar)
       - name: Diagnose build output
         run: |
           echo "=== Onde estou no terminal ==="
           pwd
-          echo "=== Listando arquivos da raiz ==="
-          ls -la
-          echo "=== Listando arquivos dentro de client (se existir) ==="
-          ls -la ./client || true
+          echo "=== Listando arquivos gerados para o deploy ==="
+          ls -la ./client/dist/public || true
 
+      # 7. Configura as páginas do GitHub
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      # 8. FAZ O UPLOAD (Agora que todos os arquivos, incluindo o 404.html, estão prontos)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/public
+          path: ./client/dist/public
 
+      # 9. Realiza o deploy final em produção
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
