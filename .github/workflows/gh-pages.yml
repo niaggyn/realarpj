@@ -34,26 +34,28 @@ jobs:
         with:
           node-version: 18
 
-      # 3. Instala as dependências dentro de ./client
+      # 3. Instala as dependências na raiz (o `vite.config.ts` define `root: client`)
       - name: Install dependencies
         run: pnpm install
-        working-directory: ./client
 
-      # 4. Executa o build do Vite dentro de ./client
+      # 4. Executa o build (Vite usa `root: client` e escreve em `dist/public` no repo root)
       - name: Build project
         run: pnpm build
-        working-directory: ./client
 
       # 5. Cria o fallback de 404 para rotas React (SPA) funcionarem no GitHub Pages
       - name: Create 404 for SPA fallback
-        run: cp ./client/dist/public/index.html ./client/dist/public/404.html || true
+        run: cp ./dist/public/index.html ./dist/public/404.html || true
 
       # 6. Diagnose (Opcional, mas bom para checar os logs se precisar)
       - name: Diagnose build output
         run: |
           echo "=== Onde estou no terminal ==="
           pwd
-          echo "=== Listando arquivos gerados para o deploy ==="
+          echo "=== Listando repo root --"
+          ls -la . || true
+          echo "=== Listando dist/public --"
+          ls -la ./dist/public || true
+          echo "=== Listando client/dist/public --"
           ls -la ./client/dist/public || true
 
       # 7. Configura as páginas do GitHub
@@ -64,7 +66,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./client/dist/public
+          path: ./dist/public
 
       # 9. Realiza o deploy final em produção
       - name: Deploy to GitHub Pages
